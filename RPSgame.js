@@ -44,7 +44,6 @@ function determineWinner(compWins, humanWins, ties) {
 }
 
 function game() {
-    let totalRounds = 0
     let compWins = 0;
     let humanWins = 0;
     let ties = 0;
@@ -54,7 +53,6 @@ function game() {
         if (possibleChoices.includes(plyrSelection.toLowerCase())) {
             let complayerSelection = computerPlay();
             let result = playRound(plyrSelection, complayerSelection);
-            totalRounds += 1;
             if (result === 'Player Win') {
                 humanWins += 1;
             } else if (result === 'It\'s a tie!') {
