@@ -1,7 +1,7 @@
 let possibleChoices = ['rock', 'paper', 'scissors'];
 
 function getRandInt(max){
-    return Math.floor(Math.random() * max); // Used for generating computers decision at random
+    return Math.floor(Math.random() * max); // Used for generating computer's decision at random
 }
 
 function computerPlay() {
@@ -35,7 +35,8 @@ function game(){
     let compWins = 0;
     let humanWins = 0;
     let ties = 0;
-    for(i=0;i<5;i++){
+    let rounds = Number(prompt('How many rounds would you like to play?'));
+    for(i=0;i<rounds;i++){
         let plyrSelection = prompt('Take your pick!');
         let compSelection = computerPlay();
         let result = playRound(plyrSelection,compSelection);
