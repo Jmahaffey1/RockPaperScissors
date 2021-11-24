@@ -1,4 +1,4 @@
-let possibleChoices = ['rock', 'paper', 'scissors'];
+const possibleChoices = ['rock', 'paper', 'scissors'];
 
 function getRandInt(max) {
     return Math.floor(Math.random() * max); // Used for generating computer's decision at random
