@@ -68,3 +68,48 @@ function game() {
     }
     determineWinner(compWins, humanWins, ties);
 }
+
+const scoreboard = document.getElementById('scoreboard');
+const beginBtn = document.getElementById('begin-button');
+const buttonSpace = document.getElementById('button-space');
+let message = document.getElementById('message');
+
+let humanScoreBox = document.createElement('div');
+let computerScoreBox = document.createElement('div');
+
+let hScoreNumber = 0;
+let cScoreNumber = 0;
+
+let humanScore = document.createElement('h2');
+let computerScore = document.createElement('h2');
+humanScore.textContent = hScoreNumber;
+computerScore.textContent = cScoreNumber;
+humanScore.classList.add('score-number');
+computerScore.classList.add('score-number');
+
+beginBtn.addEventListener('click', () => {
+    humanScoreBox.textContent = 'Human Score';
+    computerScoreBox.textContent = 'Computer Score';
+    humanScoreBox.classList.add('score-box');
+    computerScoreBox.classList.add('score-box');
+    scoreboard.appendChild(humanScoreBox);
+    scoreboard.appendChild(computerScoreBox);
+
+    humanScoreBox.appendChild(humanScore);
+    computerScoreBox.appendChild(computerScore);
+
+    beginBtn.remove();
+    message.textContent = 'Make Your Choice';
+
+
+
+
+
+    let scissorButton = document.createElement('button');
+
+    let paperButton = document.createElement('button');
+
+    let rockButton = document.createElement('button');
+
+
+});
