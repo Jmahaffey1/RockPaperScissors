@@ -55,3 +55,25 @@ button:hover {
 .score-number {
     padding: 5px;
 }
+
+#remaining-rounds{
+    font-size: 20px;
+}
+
+#selection-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 150px;
+    margin-bottom: 45px;
+}
+
+#selected-choice {
+    display: flex;
+    justify-content: space-around;
+}
+
+.images {
+    height: 175px;
+    width: 175px;
+}
+
