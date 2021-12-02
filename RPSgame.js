@@ -17,21 +17,26 @@ let rockImage = document.createElement('img');
 
 let humanScoreBox = document.createElement('div');
 let computerScoreBox = document.createElement('div');
+let tieBox = document.createElement('div');
 let remainingRounds = document.createElement('div');
 
 
 let hScoreNumber = 0;
 let cScoreNumber = 0;
+let tieScoreNumber = 0;
 let rounds = 0;
 
 let humanScore = document.createElement('h2');
 let computerScore = document.createElement('h2');
+let tieScore = document.createElement('h2');
 humanScore.textContent = hScoreNumber;
 computerScore.textContent = cScoreNumber;
+tieScore.textContent = tieScoreNumber;
 humanScore.classList.add('score-number');
 computerScore.classList.add('score-number');
 humanScoreBox.textContent = 'Human Score';
 computerScoreBox.textContent = 'Computer Score';
+tieBox.textContent = 'Ties';
 
 function getRandInt(max) {
     return Math.floor(Math.random() * max); // Used for generating computer's decision at random
@@ -80,25 +85,26 @@ function game(plyrChoice, rnds) {
     let compWins = 0;
     let humanWins = 0;
     let ties = 0;
-    for (i = 0; i < rnds; i++) {
-        let plyrSelection = plyrChoice;
-        if (possibleChoices.includes(plyrSelection.toLowerCase())) {
-            let complayerSelection = computerPlay();
-            let result = playRound(plyrSelection, complayerSelection);
-            if (result === 'Player Win') {
-                humanWins += 1;
-                hScoreNumber += 1;
-            } else if (result === 'It\'s a tie!') {
-                ties += 1;
-            } else {
-                compWins += 1;
-                cScoreNumber += 1;
-            }
-
+    let plyrSelection = plyrChoice;
+    if (possibleChoices.includes(plyrSelection.toLowerCase())) {
+        let complayerSelection = computerPlay();
+        let result = playRound(plyrSelection, complayerSelection);
+        if (result === 'Player Win') {
+            humanWins += 1;
+            hScoreNumber += 1;
+            rounds -= 1;
+        } else if (result === 'It\'s a tie!') {
+            ties += 1;
+            rounds -= 1;
         } else {
-            console.log('Illegal value entered. Game restarting');
-            game();
+            compWins += 1;
+            cScoreNumber += 1;
+            rounds -= 1;
         }
+
+    } else {
+        console.log('Illegal value entered. Game restarting');
+        game();
     }
     determineWinner(compWins, humanWins, ties);
 }
@@ -106,18 +112,24 @@ function game(plyrChoice, rnds) {
 
 
 beginBtn.addEventListener('click', () => {
-    let rounds = Number(prompt('How many rounds would you like to play?'));
+    rounds = Number(prompt('How many rounds would you like to play?'));
     humanScoreBox.classList.add('score-box');
     computerScoreBox.classList.add('score-box');
+    tieBox.classList.add('score-box');
+    
     remainingRounds.setAttribute('id', 'remaining-rounds');
     remainingRounds.textContent = 'Remaining Rounds: ' + rounds;
 
+    tieBox.setAttribute('id', 'tie-box');
+
     scoreboard.appendChild(humanScoreBox);
     scoreboard.appendChild(remainingRounds);
+    remainingRounds.appendChild(tieBox);
     scoreboard.appendChild(computerScoreBox);
 
     humanScoreBox.appendChild(humanScore);
     computerScoreBox.appendChild(computerScore);
+    tieBox.appendChild(tieScore);
 
     beginBtn.remove();
     message.textContent = 'Make Your Choice';
@@ -125,7 +137,7 @@ beginBtn.addEventListener('click', () => {
     selections.appendChild(scissorButton);
     scissorButton.textContent = 'Scissors';
     scissorButton.classList.add('scissor-button')
-    
+
     selections.appendChild(paperButton);
     paperButton.textContent = 'Paper';
     paperButton.classList.add('paper-button');
