@@ -1,5 +1,10 @@
 const possibleChoices = ['rock', 'paper', 'scissors'];
 
+let hScoreNumber = 0;
+let cScoreNumber = 0;
+let tieScoreNumber = 0;
+let rounds = 5;
+
 const scoreboard = document.getElementById('scoreboard');
 const beginBtn = document.getElementById('begin-button');
 const buttonSpace = document.getElementById('button-space');
@@ -21,14 +26,10 @@ let tieBox = document.createElement('div');
 let remainingRounds = document.createElement('div');
 
 
-let hScoreNumber = 0;
-let cScoreNumber = 0;
-let tieScoreNumber = 0;
-let rounds = 0;
-
 let humanScore = document.createElement('h2');
 let computerScore = document.createElement('h2');
 let tieScore = document.createElement('h2');
+
 humanScore.textContent = hScoreNumber;
 computerScore.textContent = cScoreNumber;
 tieScore.textContent = tieScoreNumber;
@@ -66,57 +67,55 @@ function playRound(playerSelection, computerSelection) {
 
 }
 
+
+function game(plyrChoice) {
+    let plyrSelection = plyrChoice;
+    let complayerSelection = computerPlay();
+    let result = playRound(plyrSelection, complayerSelection);
+    if (result === 'Player Win') {
+        hScoreNumber++;
+        humanScore.textContent = hScoreNumber;
+        rounds--;
+    } else if (result === 'It\'s a tie!') {
+        tieScoreNumber++;
+        tieScore.textContent = tieScoreNumber;
+        rounds--;
+    } else {
+        cScoreNumber++;
+        computerScore.textContent = cScoreNumber;
+        rounds--;
+    }
+    remainingRounds.textContent = 'Remaining Rounds: ' + rounds;
+    remainingRounds.appendChild(tieBox);
+
+    if (rounds === 0) {
+        determineWinner(hScoreNumber, cScoreNumber, tieScoreNumber);
+    }
+} 
+
 function determineWinner(compWins, humanWins, ties) {
     if (ties > compWins && ties > humanWins) {
-        console.log('The match was a tie: ');
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties)
+        console.log('The match was a tie!');
+        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
+        alert('It\'s a tie!');
     } else if (humanWins > compWins && humanWins > ties) {
         console.log('Human Wins!');
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties)
-    } else if (compWins > humanWins && compWins > ties) {
+        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
+        alert('Human Wins!');
+    } else {
         console.log('Computer Wins!')
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties)
-    } else {
-        console.log('The match was inconclusive or exited. The results were --- ' + 'Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
+        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
+        alert('Computer Wins. Better luck next time!');
     }
-}
-
-function game(plyrChoice, rnds) {
-    let compWins = 0;
-    let humanWins = 0;
-    let ties = 0;
-    let plyrSelection = plyrChoice;
-    if (possibleChoices.includes(plyrSelection.toLowerCase())) {
-        let complayerSelection = computerPlay();
-        let result = playRound(plyrSelection, complayerSelection);
-        if (result === 'Player Win') {
-            humanWins += 1;
-            hScoreNumber += 1;
-            rounds -= 1;
-        } else if (result === 'It\'s a tie!') {
-            ties += 1;
-            rounds -= 1;
-        } else {
-            compWins += 1;
-            cScoreNumber += 1;
-            rounds -= 1;
-        }
-
-    } else {
-        console.log('Illegal value entered. Game restarting');
-        game();
-    }
-    determineWinner(compWins, humanWins, ties);
 }
 
 
 
 beginBtn.addEventListener('click', () => {
-    rounds = Number(prompt('How many rounds would you like to play?'));
     humanScoreBox.classList.add('score-box');
     computerScoreBox.classList.add('score-box');
     tieBox.classList.add('score-box');
-    
+
     remainingRounds.setAttribute('id', 'remaining-rounds');
     remainingRounds.textContent = 'Remaining Rounds: ' + rounds;
 
@@ -145,8 +144,6 @@ beginBtn.addEventListener('click', () => {
     selections.appendChild(rockButton);
     rockButton.textContent = 'Rock';
     rockButton.classList.add('rock-button');
-
-
 
 });
 

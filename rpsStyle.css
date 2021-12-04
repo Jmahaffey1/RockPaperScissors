@@ -65,9 +65,10 @@ button:hover {
 
 #selection-buttons {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 150px;
     margin-bottom: 45px;
+    margin-right: 35px;   /* make buttons look centered compared to scoreboard */
 }
 
 #selected-choice {
