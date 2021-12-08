@@ -5,6 +5,8 @@ let cScoreNumber = 0;
 let tieScoreNumber = 0;
 let rounds = 5;
 
+
+//Selecting divs and text to modify later
 const scoreboard = document.getElementById('scoreboard');
 const beginBtn = document.getElementById('begin-button');
 const buttonSpace = document.getElementById('button-space');
@@ -12,21 +14,25 @@ let gameSelections = document.getElementById('selected-choice');
 let selections = document.getElementById('selection-buttons');
 let message = document.getElementById('message');
 
+//creation of buttons to be used
 let scissorButton = document.createElement('button');
 let paperButton = document.createElement('button');
 let rockButton = document.createElement('button');
 let restartButton = document.createElement('button');
 
+//creation of score boxes
 let humanScoreBox = document.createElement('div');
 let computerScoreBox = document.createElement('div');
 let tieBox = document.createElement('div');
 let remainingRounds = document.createElement('div');
 
-
+//text that goes in score boxes
 let humanScore = document.createElement('h2');
 let computerScore = document.createElement('h2');
 let tieScore = document.createElement('h2');
 
+
+//initial values and set up
 humanScore.textContent = hScoreNumber;
 computerScore.textContent = cScoreNumber;
 tieScore.textContent = tieScoreNumber;
