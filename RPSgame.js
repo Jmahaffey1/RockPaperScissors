@@ -8,17 +8,14 @@ let rounds = 5;
 const scoreboard = document.getElementById('scoreboard');
 const beginBtn = document.getElementById('begin-button');
 const buttonSpace = document.getElementById('button-space');
-let gameSelections = document.getElementById('selected-choice')
+let gameSelections = document.getElementById('selected-choice');
 let selections = document.getElementById('selection-buttons');
 let message = document.getElementById('message');
 
 let scissorButton = document.createElement('button');
 let paperButton = document.createElement('button');
 let rockButton = document.createElement('button');
-
-let scissorImage = document.createElement('img');
-let paperImage = document.createElement('img');
-let rockImage = document.createElement('img');
+let restartButton = document.createElement('button');
 
 let humanScoreBox = document.createElement('div');
 let computerScoreBox = document.createElement('div');
@@ -69,44 +66,70 @@ function playRound(playerSelection, computerSelection) {
 
 
 function game(plyrChoice) {
+    message.remove();
     let plyrSelection = plyrChoice;
-    let complayerSelection = computerPlay();
-    let result = playRound(plyrSelection, complayerSelection);
+    let compSelection = computerPlay();
+
+    let result = playRound(plyrSelection, compSelection);
+
     if (result === 'Player Win') {
         hScoreNumber++;
         humanScore.textContent = hScoreNumber;
         rounds--;
+        gameSelections.textContent = `Human chose ${plyrSelection} and computer chose ${compSelection}. Human Win!`;
     } else if (result === 'It\'s a tie!') {
         tieScoreNumber++;
         tieScore.textContent = tieScoreNumber;
         rounds--;
+        gameSelections.textContent = `Human chose ${plyrSelection} and so did the computer! The round is a tie.`;
     } else {
         cScoreNumber++;
         computerScore.textContent = cScoreNumber;
         rounds--;
+        gameSelections.textContent = `Human chose ${plyrSelection} and computer chose ${compSelection}. Computer takes the round.`;
     }
     remainingRounds.textContent = 'Remaining Rounds: ' + rounds;
     remainingRounds.appendChild(tieBox);
 
+    if (tieScoreNumber === 3 || hScoreNumber === 3 || cScoreNumber === 3) { //handles when the game conclusion cannot possibly change
+        determineWinner(hScoreNumber, cScoreNumber, tieScoreNumber);
+        remainingRounds.textContent = 'Remaining Rounds: 0'
+        remainingRounds.appendChild(tieBox);
+        selections.innerHTML = '';
+        selections.appendChild(restartButton);
+        restartButton.textContent = 'Restart';
+        restartButton.classList.add('restart-button');
+    }
+
     if (rounds === 0) {
         determineWinner(hScoreNumber, cScoreNumber, tieScoreNumber);
+        selections.innerHTML = '';
+        selections.appendChild(restartButton);
+        restartButton.textContent = 'Restart';
+        restartButton.classList.add('restart-button');
     }
-} 
+}
 
-function determineWinner(compWins, humanWins, ties) {
+function determineWinner(humanWins, compWins, ties) {
     if (ties > compWins && ties > humanWins) {
-        console.log('The match was a tie!');
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
-        alert('It\'s a tie!');
-    } else if (humanWins > compWins && humanWins > ties) {
-        console.log('Human Wins!');
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
-        alert('Human Wins!');
-    } else {
-        console.log('Computer Wins!')
-        console.log('Human Wins: ' + humanWins + ' Computer Wins: ' + compWins + ' Ties: ' + ties);
-        alert('Computer Wins. Better luck next time!');
+        gameSelections.textContent = 'The game has concluded in a tie.';
     }
+    if (humanWins > compWins && humanWins > ties) {
+        gameSelections.textContent = 'You lucked out this time! Player takes the game!';
+    }
+    if (compWins > humanWins && compWins > ties) {
+        gameSelections.textContent = 'Better luck next time. The computer will be waiting for you...';
+    }
+    if (humanWins === ties && humanWins > compWins) {
+        gameSelections.textContent = 'The ties and player score were equal. I suppose you won.';
+    }
+    if (compWins === ties && compWins > humanWins) {
+        gameSelections.textContent = 'The ties and computer score were the same. I suppose you lost.';
+    }
+    if (compWins === humanWins && humanWins > ties) {
+        gameSelections.textContent = 'Player and computer score are the same. The game concludes in a tie.';
+    }
+
 }
 
 
@@ -148,31 +171,19 @@ beginBtn.addEventListener('click', () => {
 });
 
 scissorButton.addEventListener('click', () => {
-    scissorImage.src = 'images/scissors.png';
-    scissorImage.setAttribute('id', 'scissor-image')
-    scissorImage.classList.add('images')
-    gameSelections.appendChild(scissorImage);
-    let playerSelection = 'scissors'
-    game(playerSelection, rounds);
-
+    game('scissors');
 })
 
 paperButton.addEventListener('click', () => {
-    paperImage.src = 'images/paper.jpeg';
-    paperImage.setAttribute('id', 'paper-image')
-    paperImage.classList.add('images')
-    gameSelections.appendChild(paperImage);
-    let playerSelection = 'paper'
-    game(playerSelection, rounds);
+    game('paper');
 
 })
 
 rockButton.addEventListener('click', () => {
-    rockImage.src = 'images/rock.png';
-    rockImage.setAttribute('id', 'rock-image')
-    rockImage.classList.add('images')
-    gameSelections.appendChild(rockImage);
-    let playerSelection = 'rock'
-    game(playerSelection, rounds);
+    game('rock');
 
+})
+
+restartButton.addEventListener('click', () => {
+    location.reload();
 })
